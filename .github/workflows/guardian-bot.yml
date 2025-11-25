@@ -2,9 +2,8 @@ name: Hyperion Guard - Bot Detection System
 
 on:
   schedule:
-    # Runs every 5 minutes
     - cron: '*/5 * * * *'
-  workflow_dispatch: # Manual trigger button
+  workflow_dispatch:
 
 jobs:
   detect-and-blacklist:
