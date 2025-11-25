@@ -1,0 +1,46 @@
+name: Hyperion Guard - Bot Detection System
+
+on:
+  schedule:
+    # Runs every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Manual trigger button
+
+jobs:
+  detect-and-blacklist:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run Hyperion Guard
+      env:
+        GUARDIAN_PRIVATE_KEY: ${{ secrets.GUARDIAN_PRIVATE_KEY }}
+        XGT_CONTRACT: ${{ secrets.XGT_CONTRACT }}
+        LP_PAIR: ${{ secrets.LP_PAIR }}
+      run: |
+        python guardian_bot.py
+        
+    - name: Commit updated state
+      run: |
+        git config --local user.email "hyperion@xgt.guardian"
+        git config --local user.name "Hyperion Guard Bot"
+        git add bot_state.json blacklisted.log || true
+        git diff --quiet && git diff --staged --quiet || git commit -m "🛡️ Hyperion Guard: Update state [$(date +'%Y-%m-%d %H:%M:%S UTC')]"
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
