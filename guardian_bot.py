@@ -10,10 +10,15 @@ from datetime import datetime
 from web3 import Web3
 from collections import defaultdict
 
-# Configuration
-BSC_RPC = os.environ.get('BSC_RPC', 'https://bsc-dataseed1.defibit.io/')
+# Configuration - Multiple RPC endpoints for fallback
+BSC_RPCS = [
+    'https://bsc.publicnode.com',
+    'https://rpc.ankr.com/bsc',
+    'https://1rpc.io/bnb',
+    'https://bsc-dataseed1.defibit.io/',
+    'https://bsc-dataseed.binance.org/',
+]
 XGT_CONTRACT = os.environ.get('XGT_CONTRACT', '0x654E38A4516F5476D723D770382A5EaF8Bae0e0D')
-LP_PAIR = os.environ.get('LP_PAIR', '0x90868821cb533f54b90bbdd5ff4128a13e0376ff')
 
 # Detection thresholds
 MIN_TRADES_TO_FLAG = 8
@@ -41,9 +46,20 @@ class HyperionGuard:
         print("MODE: MONITOR & LOG (No Auto-Blacklist)")
         print("=" * 70)
         
-        self.w3 = Web3(Web3.HTTPProvider(BSC_RPC))
-        if not self.w3.is_connected():
-            raise Exception("❌ Failed to connect to BSC RPC")
+        # Try multiple RPCs until one works
+        self.w3 = None
+        for rpc in BSC_RPCS:
+            try:
+                w3_temp = Web3(Web3.HTTPProvider(rpc))
+                if w3_temp.is_connected():
+                    self.w3 = w3_temp
+                    print(f"✅ Connected via: {rpc}")
+                    break
+            except:
+                continue
+        
+        if not self.w3 or not self.w3.is_connected():
+            raise Exception("❌ Failed to connect to any BSC RPC")
         
         print(f"✅ Connected to BSC (Block: {self.w3.eth.block_number})")
         
@@ -64,7 +80,7 @@ class HyperionGuard:
         try:
             with open('bot_state.json', 'r') as f:
                 data = json.load(f)
-                self.last_block = data.get('last_block', self.w3.eth.block_number - 10)
+                self.last_block = data.get('last_block', self.w3.eth.block_number - 5)
                 self.trader_stats = defaultdict(
                     lambda: {'buys': [], 'sells': [], 'trades': [], 'first_seen': 0},
                     {k: v for k, v in data.get('trader_stats', {}).items()}
@@ -72,7 +88,7 @@ class HyperionGuard:
                 self.detected_bots = set(data.get('detected_bots', []))
         except FileNotFoundError:
             print("⚠️  No previous state found, starting fresh")
-            self.last_block = self.w3.eth.block_number - 10
+            self.last_block = self.w3.eth.block_number - 5
             self.trader_stats = defaultdict(lambda: {
                 'buys': [], 'sells': [], 'trades': [], 'first_seen': 0
             })
@@ -93,7 +109,7 @@ class HyperionGuard:
     def scan_recent_blocks(self):
         """Scan recent blocks for XGT transfers"""
         current_block = self.w3.eth.block_number
-        MAX_BLOCK_SPAN = 10  # XGT has MASSIVE trading volume - ultra-small range required
+        MAX_BLOCK_SPAN = 5  # XGT has MASSIVE trading volume - minimal range required
         from_block = max(self.last_block + 1, current_block - MAX_BLOCK_SPAN)
         
         # SAFETY: Never scan more than MAX_BLOCK_SPAN blocks in one run
@@ -102,21 +118,39 @@ class HyperionGuard:
         
         print(f"🔍 Scanning blocks {from_block} → {current_block}...")
         
-        try:
-            events = self.contract.events.Transfer.get_logs(
-                from_block=from_block,
-                to_block=current_block
-            )
-            
+        # Try each RPC until one works
+        events = None
+        for rpc in BSC_RPCS:
+            try:
+                w3_temp = Web3(Web3.HTTPProvider(rpc))
+                if not w3_temp.is_connected():
+                    continue
+                    
+                contract_temp = w3_temp.eth.contract(
+                    address=Web3.to_checksum_address(XGT_CONTRACT),
+                    abi=CONTRACT_ABI
+                )
+                
+                events = contract_temp.events.Transfer.get_logs(
+                    from_block=from_block,
+                    to_block=current_block
+                )
+                print(f"✅ Success via: {rpc}")
+                break
+                
+            except Exception as e:
+                print(f"⚠️  RPC {rpc[:30]}... failed: {str(e)[:50]}")
+                continue
+        
+        if events is not None:
             print(f"📊 Found {len(events)} transfers\n")
             
             for event in events:
                 self.analyze_transfer(event)
             
             self.last_block = current_block
-            
-        except Exception as e:
-            print(f"⚠️  Error scanning blocks: {e}")
+        else:
+            print(f"❌ All RPCs failed. Will retry next run.")
     
     def analyze_transfer(self, event):
         """Analyze a single transfer event"""
