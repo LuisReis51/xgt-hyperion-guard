@@ -64,7 +64,7 @@ class HyperionGuard:
         try:
             with open('bot_state.json', 'r') as f:
                 data = json.load(f)
-                self.last_block = data.get('last_block', self.w3.eth.block_number - 25)
+                self.last_block = data.get('last_block', self.w3.eth.block_number - 10)
                 self.trader_stats = defaultdict(
                     lambda: {'buys': [], 'sells': [], 'trades': [], 'first_seen': 0},
                     {k: v for k, v in data.get('trader_stats', {}).items()}
@@ -72,7 +72,7 @@ class HyperionGuard:
                 self.detected_bots = set(data.get('detected_bots', []))
         except FileNotFoundError:
             print("⚠️  No previous state found, starting fresh")
-            self.last_block = self.w3.eth.block_number - 25
+            self.last_block = self.w3.eth.block_number - 10
             self.trader_stats = defaultdict(lambda: {
                 'buys': [], 'sells': [], 'trades': [], 'first_seen': 0
             })
@@ -93,7 +93,7 @@ class HyperionGuard:
     def scan_recent_blocks(self):
         """Scan recent blocks for XGT transfers"""
         current_block = self.w3.eth.block_number
-        MAX_BLOCK_SPAN = 25  # XGT has EXTREMELY high activity - must stay small
+        MAX_BLOCK_SPAN = 10  # XGT has MASSIVE trading volume - ultra-small range required
         from_block = max(self.last_block + 1, current_block - MAX_BLOCK_SPAN)
         
         # SAFETY: Never scan more than MAX_BLOCK_SPAN blocks in one run
