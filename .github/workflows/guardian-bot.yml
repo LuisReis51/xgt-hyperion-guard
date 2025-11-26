@@ -2,7 +2,8 @@ name: Hyperion Guard - Bot Detection System
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    # Every 15 minutes - saves GitHub Actions quota
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
