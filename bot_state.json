@@ -1,8 +1,148 @@
 {
-  "last_block": 69506341,
-  "last_update": "2025-11-26T04:30:43.905464",
-  "trader_stats": {},
+  "last_block": 69506441,
+  "last_update": "2025-11-26T04:47:14.427037",
+  "trader_stats": {
+    "0x939476115D8ba4C23abFa8291d895E2980c5fF81": {
+      "buys": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        }
+      ],
+      "sells": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        }
+      ],
+      "trades": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        },
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        }
+      ],
+      "first_seen": 69506434
+    },
+    "0xc590175E458b83680867AFD273527Ff58f74c02b": {
+      "buys": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        }
+      ],
+      "sells": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
+        }
+      ],
+      "trades": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        },
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
+        }
+      ],
+      "first_seen": 69506434
+    },
+    "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E": {
+      "buys": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        }
+      ],
+      "sells": [],
+      "trades": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        }
+      ],
+      "first_seen": 69506434
+    },
+    "0x90868821cB533F54b90BBDd5fF4128a13e0376fF": {
+      "buys": [],
+      "sells": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        }
+      ],
+      "trades": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        }
+      ],
+      "first_seen": 69506434
+    },
+    "0x9999b0CdD35d7F3B281BA02EfC0d228486940515": {
+      "buys": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        }
+      ],
+      "sells": [
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        }
+      ],
+      "trades": [
+        {
+          "type": "receive",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        },
+        {
+          "type": "send",
+          "block": 69506434,
+          "amount": "140107020520576753078232",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        }
+      ],
+      "first_seen": 69506434
+    }
+  },
   "detected_bots": [],
-  "total_scanned": 0,
+  "total_scanned": 5,
   "total_detected": 0
 }
