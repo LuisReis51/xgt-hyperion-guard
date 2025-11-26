@@ -99,6 +99,7 @@ class HyperionGuard:
         print(f"🔍 Scanning blocks {from_block} → {current_block}...")
         
         try:
+            # FIXED: Use snake_case parameters for web3.py v6+
             events = self.contract.events.Transfer.get_logs(
                 fromBlock=from_block,
                 toBlock=current_block
