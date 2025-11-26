@@ -100,8 +100,8 @@ class HyperionGuard:
         
         try:
             events = self.contract.events.Transfer.get_logs(
-                from_block=from_block,
-                to_block=current_block
+                fromBlock=from_block,
+                toBlock=current_block
             )
             
             print(f"📊 Found {len(events)} transfers\n")
