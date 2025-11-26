@@ -65,7 +65,7 @@ class HyperionGuard:
         try:
             with open('bot_state.json', 'r') as f:
                 data = json.load(f)
-                self.last_block = data.get('last_block', self.w3.eth.block_number - 1000)
+                self.last_block = data.get('last_block', self.w3.eth.block_number - 200)
                 self.trader_stats = defaultdict(
                     lambda: {'buys': [], 'sells': [], 'trades': [], 'first_seen': 0},
                     {k: v for k, v in data.get('trader_stats', {}).items()}
@@ -73,7 +73,7 @@ class HyperionGuard:
                 self.detected_bots = set(data.get('detected_bots', []))
         except FileNotFoundError:
             print("⚠️  No previous state found, starting fresh")
-            self.last_block = self.w3.eth.block_number - 1000
+            self.last_block = self.w3.eth.block_number - 200
             self.trader_stats = defaultdict(lambda: {
                 'buys': [], 'sells': [], 'trades': [], 'first_seen': 0
             })
@@ -94,12 +94,16 @@ class HyperionGuard:
     def scan_recent_blocks(self):
         """Scan recent blocks for XGT transfers"""
         current_block = self.w3.eth.block_number
-        from_block = max(self.last_block + 1, current_block - 500)
+        MAX_BLOCK_SPAN = 200  # Reduced to avoid BSC RPC 'limit exceeded' error
+        from_block = max(self.last_block + 1, current_block - MAX_BLOCK_SPAN)
+        
+        # SAFETY: Never scan more than MAX_BLOCK_SPAN blocks in one run
+        if (current_block - from_block) > MAX_BLOCK_SPAN:
+            from_block = current_block - MAX_BLOCK_SPAN
         
         print(f"🔍 Scanning blocks {from_block} → {current_block}...")
         
         try:
-            # FIXED: Use snake_case parameters for web3.py v6+
             events = self.contract.events.Transfer.get_logs(
                 from_block=from_block,
                 to_block=current_block
