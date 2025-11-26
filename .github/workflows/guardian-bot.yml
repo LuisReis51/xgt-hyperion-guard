@@ -35,7 +35,6 @@ jobs:
       run: |
         git config --local user.email "hyperion@xgt.guardian"
         git config --local user.name "Hyperion Guard Bot"
-        git pull origin main
         git add bot_state.json blacklisted.log || true
         git diff --quiet && git diff --staged --quiet || git commit -m "🛡️ Hyperion Guard: Update state [$(date +'%Y-%m-%d %H:%M:%S UTC')]"
         
@@ -44,3 +43,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
+        force: true
