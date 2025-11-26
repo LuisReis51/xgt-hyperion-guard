@@ -20,11 +20,11 @@ BSC_RPCS = [
 ]
 XGT_CONTRACT = os.environ.get('XGT_CONTRACT', '0x654E38A4516F5476D723D770382A5EaF8Bae0e0D')
 
-# Detection thresholds
-MIN_TRADES_TO_FLAG = 8
+# Detection thresholds - AGGRESSIVE for faster detection
+MIN_TRADES_TO_FLAG = 4  # Reduced from 8 to catch bots faster
 MAX_AVG_HOLD_BLOCKS = 100
-WASH_TRADING_THRESHOLD = 0.85
-MAX_TRADES_PER_HOUR = 20
+WASH_TRADING_THRESHOLD = 0.75  # More sensitive (was 0.85)
+MAX_TRADES_PER_HOUR = 15  # Lower threshold (was 20)
 
 # Minimal ABI for Transfer events
 CONTRACT_ABI = [{
@@ -107,50 +107,63 @@ class HyperionGuard:
             }, f, indent=2)
     
     def scan_recent_blocks(self):
-        """Scan recent blocks for XGT transfers"""
+        """Scan recent blocks for XGT transfers - CHUNKED to catch all activity"""
         current_block = self.w3.eth.block_number
-        MAX_BLOCK_SPAN = 5  # XGT has MASSIVE trading volume - minimal range required
-        from_block = max(self.last_block + 1, current_block - MAX_BLOCK_SPAN)
+        CHUNK_SIZE = 5  # Scan 5 blocks at a time to avoid RPC limits
+        MAX_CHUNKS = 20  # Max 20 chunks per run = 100 blocks total
         
-        # SAFETY: Never scan more than MAX_BLOCK_SPAN blocks in one run
-        if (current_block - from_block) > MAX_BLOCK_SPAN:
-            from_block = current_block - MAX_BLOCK_SPAN
+        start_block = self.last_block + 1
+        blocks_behind = current_block - start_block
         
-        print(f"🔍 Scanning blocks {from_block} → {current_block}...")
+        if blocks_behind <= 0:
+            print(f"✅ Already up to date (block {current_block})")
+            return
         
-        # Try each RPC until one works
-        events = None
-        for rpc in BSC_RPCS:
-            try:
-                w3_temp = Web3(Web3.HTTPProvider(rpc))
-                if not w3_temp.is_connected():
-                    continue
+        print(f"📊 {blocks_behind} blocks to scan (chunking by {CHUNK_SIZE})")
+        
+        total_events = 0
+        chunks_scanned = 0
+        
+        while start_block < current_block and chunks_scanned < MAX_CHUNKS:
+            end_block = min(start_block + CHUNK_SIZE - 1, current_block)
+            
+            print(f"🔍 Chunk {chunks_scanned + 1}: blocks {start_block} → {end_block}...")
+            
+            # Try each RPC until one works
+            events = None
+            for rpc in BSC_RPCS:
+                try:
+                    w3_temp = Web3(Web3.HTTPProvider(rpc))
+                    if not w3_temp.is_connected():
+                        continue
+                        
+                    contract_temp = w3_temp.eth.contract(
+                        address=Web3.to_checksum_address(XGT_CONTRACT),
+                        abi=CONTRACT_ABI
+                    )
                     
-                contract_temp = w3_temp.eth.contract(
-                    address=Web3.to_checksum_address(XGT_CONTRACT),
-                    abi=CONTRACT_ABI
-                )
-                
-                events = contract_temp.events.Transfer.get_logs(
-                    from_block=from_block,
-                    to_block=current_block
-                )
-                print(f"✅ Success via: {rpc}")
+                    events = contract_temp.events.Transfer.get_logs(
+                        from_block=start_block,
+                        to_block=end_block
+                    )
+                    break
+                    
+                except Exception as e:
+                    continue
+            
+            if events is not None:
+                total_events += len(events)
+                for event in events:
+                    self.analyze_transfer(event)
+                self.last_block = end_block
+            else:
+                print(f"⚠️  Chunk failed, will retry next run")
                 break
-                
-            except Exception as e:
-                print(f"⚠️  RPC {rpc[:30]}... failed: {str(e)[:50]}")
-                continue
+            
+            start_block = end_block + 1
+            chunks_scanned += 1
         
-        if events is not None:
-            print(f"📊 Found {len(events)} transfers\n")
-            
-            for event in events:
-                self.analyze_transfer(event)
-            
-            self.last_block = current_block
-        else:
-            print(f"❌ All RPCs failed. Will retry next run.")
+        print(f"\n📊 TOTAL: {total_events} transfers from {chunks_scanned} chunks")
     
     def analyze_transfer(self, event):
         """Analyze a single transfer event"""
