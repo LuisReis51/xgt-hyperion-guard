@@ -51,10 +51,9 @@ class HyperionGuard:
             address=Web3.to_checksum_address(XGT_CONTRACT),
             abi=CONTRACT_ABI
         )
-        self.lp_pair = Web3.to_checksum_address(LP_PAIR)
         
         print(f"✅ XGT Contract: {XGT_CONTRACT}")
-        print(f"✅ LP Pair (XGT/WBNB): {LP_PAIR}")
+        print(f"✅ Monitoring: ALL XGT transfers (not limited to specific pairs)")
         
         self.load_state()
         print(f"✅ Loaded state (Last block: {self.last_block})")
@@ -126,34 +125,37 @@ class HyperionGuard:
         amount = event['args']['value']
         block_num = event['blockNumber']
         
-        is_buy = (from_addr.lower() == self.lp_pair.lower())
-        is_sell = (to_addr.lower() == self.lp_pair.lower())
-        
-        if not (is_buy or is_sell):
+        # Skip zero address (mints/burns)
+        zero_addr = '0x0000000000000000000000000000000000000000'
+        if from_addr == zero_addr or to_addr == zero_addr:
             return
         
-        trader = to_addr if is_buy else from_addr
-        
-        if trader not in self.trader_stats:
-            self.trader_stats[trader] = {
-                'buys': [], 'sells': [], 'trades': [], 'first_seen': block_num
+        # Track BOTH sender and receiver for comprehensive monitoring
+        for trader in [from_addr, to_addr]:
+            if trader not in self.trader_stats:
+                self.trader_stats[trader] = {
+                    'buys': [], 'sells': [], 'trades': [], 'first_seen': block_num
+                }
+            
+            stats = self.trader_stats[trader]
+            
+            # Determine if this is a buy or sell (relative to the trader)
+            is_sender = (trader == from_addr)
+            trade = {
+                'type': 'send' if is_sender else 'receive',
+                'block': block_num,
+                'amount': str(amount),
+                'counterparty': to_addr if is_sender else from_addr
             }
-        
-        stats = self.trader_stats[trader]
-        trade = {
-            'type': 'buy' if is_buy else 'sell',
-            'block': block_num,
-            'amount': str(amount)
-        }
-        
-        stats['trades'].append(trade)
-        if is_buy:
-            stats['buys'].append(trade)
-        else:
-            stats['sells'].append(trade)
-        
-        if len(stats['trades']) >= MIN_TRADES_TO_FLAG:
-            self.check_bot_pattern(trader, stats)
+            
+            stats['trades'].append(trade)
+            if is_sender:
+                stats['sells'].append(trade)
+            else:
+                stats['buys'].append(trade)
+            
+            if len(stats['trades']) >= MIN_TRADES_TO_FLAG:
+                self.check_bot_pattern(trader, stats)
     
     def check_bot_pattern(self, address, stats):
         """Detect bot trading patterns"""
