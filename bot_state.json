@@ -1,6 +1,6 @@
 {
-  "last_block": 69510441,
-  "last_update": "2025-11-26T14:52:59.656737",
+  "last_block": 69510541,
+  "last_update": "2025-11-26T14:58:29.279142",
   "trader_stats": {
     "0x939476115D8ba4C23abFa8291d895E2980c5fF81": {
       "buys": [
@@ -15,6 +15,12 @@
           "block": 69506567,
           "amount": "3964835258495767558881",
           "counterparty": "0x9e55E15BeddBF6AE93957fB36d225ffCD8B988C5"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88"
         }
       ],
       "sells": [
@@ -22,6 +28,12 @@
           "type": "send",
           "block": 69506434,
           "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
           "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
         }
       ],
@@ -43,6 +55,18 @@
           "block": 69506567,
           "amount": "3964835258495767558881",
           "counterparty": "0x9e55E15BeddBF6AE93957fB36d225ffCD8B988C5"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88"
         }
       ],
       "first_seen": 69506434
@@ -54,6 +78,12 @@
           "block": 69506434,
           "amount": "252414865179337004805803",
           "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
         }
       ],
       "sells": [
@@ -61,6 +91,12 @@
           "type": "send",
           "block": 69506434,
           "amount": "252414865179337004805803",
+          "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
           "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
         }
       ],
@@ -76,6 +112,18 @@
           "block": 69506434,
           "amount": "252414865179337004805803",
           "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
+          "counterparty": "0x42E1eB344bB01afA3fEe97e2848b63174854BA0E"
         }
       ],
       "first_seen": 69506434
@@ -87,6 +135,12 @@
           "block": 69506434,
           "amount": "252414865179337004805803",
           "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
         }
       ],
       "sells": [],
@@ -95,6 +149,12 @@
           "type": "receive",
           "block": 69506434,
           "amount": "252414865179337004805803",
+          "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
+        },
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "249512210489439237570980",
           "counterparty": "0xc590175E458b83680867AFD273527Ff58f74c02b"
         }
       ],
@@ -108,6 +168,12 @@
           "block": 69506434,
           "amount": "140107020520576753078232",
           "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88"
         }
       ],
       "trades": [
@@ -116,6 +182,12 @@
           "block": 69506434,
           "amount": "140107020520576753078232",
           "counterparty": "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88"
         }
       ],
       "first_seen": 69506434
@@ -172,9 +244,45 @@
         }
       ],
       "first_seen": 69506567
+    },
+    "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88": {
+      "buys": [
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        }
+      ],
+      "sells": [
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        }
+      ],
+      "trades": [
+        {
+          "type": "receive",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        },
+        {
+          "type": "send",
+          "block": 69510537,
+          "amount": "149154528204779027845887",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        }
+      ],
+      "first_seen": 69510537
     }
   },
-  "detected_bots": [],
-  "total_scanned": 6,
-  "total_detected": 0
+  "detected_bots": [
+    "0x939476115D8ba4C23abFa8291d895E2980c5fF81",
+    "0xc590175E458b83680867AFD273527Ff58f74c02b"
+  ],
+  "total_scanned": 7,
+  "total_detected": 2
 }

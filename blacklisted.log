@@ -1,2 +1,12 @@
 # Hyperion Guard - Blacklist Log
 # Format: [timestamp] address | reason | TX:hash
+[2025-11-26 14:58:29 UTC] 🚨 BOT: 0x939476115D8ba4C23abFa8291d895E2980c5fF81
+           PATTERNS: WASH_TRADING (2B/2S, ratio:1.00) | SAME_BLOCK_BUY_SELL
+           STATS: 4 trades (2B/2S)
+           ACTION: LOGGED (Manual review recommended)
+----------------------------------------------------------------------
+[2025-11-26 14:58:29 UTC] 🚨 BOT: 0xc590175E458b83680867AFD273527Ff58f74c02b
+           PATTERNS: WASH_TRADING (2B/2S, ratio:1.00) | SAME_BLOCK_BUY_SELL
+           STATS: 4 trades (2B/2S)
+           ACTION: LOGGED (Manual review recommended)
+----------------------------------------------------------------------
