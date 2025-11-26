@@ -10,3 +10,8 @@
            STATS: 4 trades (2B/2S)
            ACTION: LOGGED (Manual review recommended)
 ----------------------------------------------------------------------
+[2025-11-26 15:57:31 UTC] 🚨 BOT: 0x9999b0CdD35d7F3B281BA02EfC0d228486940515
+           PATTERNS: WASH_TRADING (2B/2S, ratio:1.00) | SAME_BLOCK_BUY_SELL
+           STATS: 4 trades (2B/2S)
+           ACTION: LOGGED (Manual review recommended)
+----------------------------------------------------------------------
