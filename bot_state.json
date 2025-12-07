@@ -1,6 +1,6 @@
 {
-  "last_block": 69568316,
-  "last_update": "2025-12-07T21:47:19.983746",
+  "last_block": 69568416,
+  "last_update": "2025-12-07T22:11:02.495965",
   "trader_stats": {
     "0x939476115D8ba4C23abFa8291d895E2980c5fF81": {
       "buys": [
@@ -563,8 +563,8 @@
   },
   "detected_bots": [
     "0xc590175E458b83680867AFD273527Ff58f74c02b",
-    "0x939476115D8ba4C23abFa8291d895E2980c5fF81",
-    "0x9999b0CdD35d7F3B281BA02EfC0d228486940515"
+    "0x9999b0CdD35d7F3B281BA02EfC0d228486940515",
+    "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
   ],
   "total_scanned": 9,
   "total_detected": 3
