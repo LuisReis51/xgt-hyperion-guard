@@ -1,6 +1,6 @@
 {
-  "last_block": 69614916,
-  "last_update": "2025-12-18T21:27:58.878715",
+  "last_block": 69615016,
+  "last_update": "2025-12-18T21:38:18.900121",
   "trader_stats": {
     "0x939476115D8ba4C23abFa8291d895E2980c5fF81": {
       "buys": [
@@ -38,6 +38,12 @@
           "type": "receive",
           "block": 69613076,
           "amount": "39383118997182850647264",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        },
+        {
+          "type": "receive",
+          "block": 69614947,
+          "amount": "27301774824688562304344",
           "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
         }
       ],
@@ -198,6 +204,12 @@
           "type": "receive",
           "block": 69613076,
           "amount": "39383118997182850647264",
+          "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
+        },
+        {
+          "type": "receive",
+          "block": 69614947,
+          "amount": "27301774824688562304344",
           "counterparty": "0x90868821cB533F54b90BBDd5fF4128a13e0376fF"
         }
       ],
@@ -493,6 +505,12 @@
           "block": 69613076,
           "amount": "39383118997182850647264",
           "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        },
+        {
+          "type": "send",
+          "block": 69614947,
+          "amount": "27301774824688562304344",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
         }
       ],
       "trades": [
@@ -572,6 +590,12 @@
           "type": "send",
           "block": 69613076,
           "amount": "39383118997182850647264",
+          "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+        },
+        {
+          "type": "send",
+          "block": 69614947,
+          "amount": "27301774824688562304344",
           "counterparty": "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
         }
       ],
@@ -877,9 +901,9 @@
   },
   "detected_bots": [
     "0xc590175E458b83680867AFD273527Ff58f74c02b",
-    "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88",
+    "0x939476115D8ba4C23abFa8291d895E2980c5fF81",
     "0x9999b0CdD35d7F3B281BA02EfC0d228486940515",
-    "0x939476115D8ba4C23abFa8291d895E2980c5fF81"
+    "0x0b04D2eb5Da34d118D8b5c31cEf911b67D806c88"
   ],
   "total_scanned": 12,
   "total_detected": 4
